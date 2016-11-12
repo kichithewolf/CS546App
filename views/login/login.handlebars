@@ -2,7 +2,7 @@
     <div class="col-sm-6 center-block">
         <h1 class="login-banner space-bottom">Login to Collective</h1>
 		
-        <form class="space-bottom" method="post">
+        <form name="loginCollective" class="space-bottom" onsubmit="return validateLogin()" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" class="form-control" id="username" name="username" value="{{ username }}">
