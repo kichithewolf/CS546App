@@ -1,0 +1,29 @@
+{
+  "name": "cs546app",
+  "version": "1.0.0",
+  "description": "Unified publishing platform for social media.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kichithewolf/CS546App.git"
+  },
+  "author": "manali",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kichithewolf/CS546App/issues"
+  },
+  "homepage": "https://github.com/kichithewolf/CS546App#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.5",
+    "mongodb": "^2.2.11",
+    "node-uuid": "^1.4.7"
+  }
+}
