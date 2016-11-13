@@ -1,5 +1,5 @@
-body {
-    background: #FFF8DC;
+/*body {
+    background: #FFF;
     font-family: Big Caslon,Cambria,Helvetica,sans-serif,Georgia, "Times New Roman", Times;
     font-size: 15pt;
 }
@@ -10,13 +10,13 @@ main {
 }
 
 h1 {
-    color: #74574a;
+    color: #3b5998;
     margin-bottom: 5px;
     font-size: 2rem;
 }
 
 h2, h3, h4, h5, h6 {
-    color: #896a51;
+    color: #3b5998;
     margin-bottom: 5px;
 }
 
@@ -43,15 +43,15 @@ h6 {
 p {
     font-size: 1rem;
     line-height: 2;
-    color:#9a7c66;
+    color:#000000;
 }
 
 a {
     text-decoration: none;
-    color: #8B475D;
+    color: #000000;
 }
 a:visited{
-    color: #CD919E;
+    color: #000000;
 }
 address {
     margin-bottom: 5px;
@@ -61,4 +61,26 @@ address {
     width: 75%;
     border-bottom: 1px dashed #333;
 }
+*/
 
+/* Will be changed according to the what the team decides later */
+body {
+    background: #FFF;
+    font-family: Lucida Grande/Tahoma,Century Gothic, Cambria, "Times New Roman", Times, serif;
+    font-size: 15pt;
+    color: #3b5998 ;
+}
+
+main {
+    max-width: 75%;
+    margin: auto;
+}
+
+h1 {
+    color: #3b5998;
+    margin-bottom: 5px;
+}
+
+label{
+font-size: 13pt;
+}

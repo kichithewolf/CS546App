@@ -1,59 +1,79 @@
 function validateLogin() {
+    err.classList.add("hidden");
     var x = document.forms["loginCollective"]["username"].value;
 	var y = document.forms["loginCollective"]["password"].value;
     if (x == null || x == "") {
-        alert("Fill out username!");
+        err.innerHTML= "Fill out the username!";
+        err.classList.remove("hidden");
         return false;
     }
     if (y == null || y == "") {
-        alert("Fill out password!");
+        err.innerHTML= "Fill out the password!";
+        err.classList.remove("hidden");
         return false;
     }
 }
 
 function validateRegister() {
 	var regex = /\S+@\S+\.\S+/;
+    var patt = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");    
     var x = document.forms["registerCollective"]["username"].value;
 	var y = document.forms["registerCollective"]["username2"].value;
+    var err = document.getElementById("err");
     if (x == null || x == "") {
-        alert("Fill out username!");
+        err.innerHTML= "Fill out the username!";
+        err.classList.remove("hidden");
         return false;
     }
     if (y == null || y == "") {
-        alert("Confirm username!");
+        err.innerHTML= "Confirm the username!";
+        err.classList.remove("hidden");
         return false;
     }
 	if (x != y) {
-		alert("Username must match!");
+        err.innerHTML= "Username doesn't match!";
+        err.classList.remove("hidden");
 		return false;
 	}
 	var a = document.forms["registerCollective"]["email"].value;
 	var b = document.forms["registerCollective"]["email2"].value;
     if (a == null || a == "") {
-        alert("Fill out email!");
+        err.innerHTML= "Fill out the email!";
+        err.classList.remove("hidden");
         return false;
     }
     if (b == null || b == "") {
-        alert("Confirm email!");
+        err.innerHTML= "Confirm the email!";
+        err.classList.remove("hidden");
         return false;
     }
 	if (a != b) {
-		alert("Email must match!");
+        err.innerHTML= "Email doesn't match!";
+        err.classList.remove("hidden");
 		return false;
 	}
 	var c = document.forms["registerCollective"]["password"].value;
 	var d = document.forms["registerCollective"]["password2"].value;
     if (c == null || c == "") {
-        alert("Fill out password!");
+        err.innerHTML= "Fill out the password!";
+        err.classList.remove("hidden");
         return false;
     }
     if (d == null || d == "") {
-        alert("Confirm password!");
+        err.innerHTML= "Confirm the password!";
+        err.classList.remove("hidden");
         return false;
     }
 	if (c != d) {
-		alert("Passwords must match!");
+        err.innerHTML= "Passwords doesnt' match!";
+        err.classList.remove("hidden");
 		return false;
 	}
-	return re.test(a);
+    if(!patt.test(c))
+    {
+        err.innerHTML= "Password must contain:<br> At least 8 characters <br> At least 1 number <br> At least 1 lowercase character <br> At least 1 uppercase character";
+        err.classList.remove("hidden");
+		return false  
+    }
+    return regex.test(a);
 }

@@ -73,8 +73,8 @@ let exportedMethods = {
     {
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the recipe provided to be deleted");
-        return recipes().then((recipesCollection) => {
-            return recipesCollection
+        return users().then((usersCollection) => {
+            return usersCollection
                 .removeOne({ _id: postId })
                 .then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {

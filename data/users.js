@@ -79,7 +79,7 @@ let exportedMethods = {
                     return bcrypt.compareSync(password, user.password);
                 }
             }).catch((err) => {
-                return Promise.reject("Could not login due to an error!");
+                return Promise.reject(err);
             });
         });
     },
