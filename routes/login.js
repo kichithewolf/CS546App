@@ -14,7 +14,8 @@ router.post("/", (req, res) => {
 
     usersData.login(username, password).then((result) => {
         if (result === true) {
-            res.render("post/post", {});
+            //TODO: need to create a sessionId (cookie) and store authenticated userId in the server session state
+            res.redirect("/posts");
         }
 
     }).catch((e) => {
@@ -41,7 +42,6 @@ router.post("/register", (req, res) => {
         res.render("login/register", { username: username, email: email, password: password, error: e });
     });
 });
-module.exports = router;
 
 // To check if the users are actually being added, just for debugging phase. To be removed laters
 router.get("/getallusers", (req, res) => {
@@ -57,3 +57,4 @@ router.get("/removeallusers", (req, res) => {
     });
 });
 
+module.exports = router;

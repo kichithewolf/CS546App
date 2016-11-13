@@ -17,13 +17,15 @@ let exportedMethods = {
                 .toArray()
                 .then((post) => {
                     if (post.length==0)
-                        return Promise.reject("No posts found");
-                    return post;
+                        return [];
+                    else
+                        return post;
                 });
         });
     },
 
-    getPostById(postId) {
+    getPostById(userId, postId) {
+        //TODO: check userId submitted against the userId of the post, must be equal before returning
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the post provided");
 
@@ -69,8 +71,9 @@ let exportedMethods = {
          });
     },
 
-    removePost(postId) 
+    removePost(userId, postId)
     {
+        //TODO: check userId submitted against the userId of the post, must be equal before deleting
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the recipe provided to be deleted");
         return users().then((usersCollection) => {
