@@ -1,7 +1,7 @@
 {
-  "name": "cs546app",
+  "name": "Collective",
   "version": "1.0.0",
-  "description": "Unified publishing platform for social media.",
+  "description": "Unified publishing platform for social media for CS-546 Fall 2016",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,14 +11,14 @@
     "type": "git",
     "url": "git+https://github.com/kichithewolf/CS546App.git"
   },
-  "author": "manali",
+  "author": "Michelle Wong, Luis Felipe Jimenez, Manali Satghar, Jay Rungta, Dave Dorsett",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kichithewolf/CS546App/issues"
   },
   "homepage": "https://github.com/kichithewolf/CS546App#readme",
   "dependencies": {
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
