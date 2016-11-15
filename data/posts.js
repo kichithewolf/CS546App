@@ -24,7 +24,7 @@ let exportedMethods = {
         });
     },
 
-    getPostById(userId, postId) {
+    getPostById(posterId, postId) {
         //TODO: check userId submitted against the userId of the post, must be equal before returning
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the post provided");
@@ -32,7 +32,7 @@ let exportedMethods = {
         return posts().then((postsCollection) => {
 
             return postsCollection
-                .findOne({ _id: postId })
+                .findOne({ _id: postId, posterId:posterId })
                 .then((post) => {
                     if (!post)
                         return Promise.reject("No post found");
@@ -71,14 +71,14 @@ let exportedMethods = {
          });
     },
 
-    removePost(userId, postId)
+    removePost(posterId, postId)
     {
         //TODO: check userId submitted against the userId of the post, must be equal before deleting
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the recipe provided to be deleted");
         return users().then((usersCollection) => {
             return usersCollection
-                .removeOne({ _id: postId })
+                .removeOne({ _id: postId , posterId: posterId })
                 .then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         return Promise.reject("Could not delete the recipe");
