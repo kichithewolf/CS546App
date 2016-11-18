@@ -1,13 +1,10 @@
 # CS546App
 
 Notes:
-* No non source should be checked into Git (node_modules folder, .vscode folder, npm-debug.log file) 
-* I changed the bcrypt module to bcryptjs to avoid native dependencies 
+* Added connect-mongodb-session package to use mongodb as session store instead of in-memory store (not really a production thing). 
 
 TODO List:
-* after user is authenticated in POST /login, create server session with userId and return session guid as cookie for subsequent reqs.
-* data getPostbyId() and removePost() need to take the userid of the post and check it against the actual post before returning or delting the post
-
+* implement data/users updateUser() and updateUserAccounts()
 
 Questions:
-* why is rewriteUnsupportedBroserMethod() necessary in app.js?
+* need a lost-password-reset??

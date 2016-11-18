@@ -1,1 +1,19 @@
-<h1>List of Posts</h1>
+<h1>Posts</h1>
+
+{{#if accounts.length}}
+    <form>
+        <label for="postText">Post:</label>
+        <textarea id="postText" placeholder="Type your post here"></textarea>
+        {{#each accounts}}{{accountUserName}} ({{type}}{{/each}}
+        <button type="submit">Post It!</button>
+    </form>
+{{else}}
+    You can't post until you configure your social media accounts!
+{{/if}}
+<h2>Past Posts</h2>
+{{#if posts}}
+    {{posts}}
+{{else}}
+    No posts yet!
+{{/if}}
+

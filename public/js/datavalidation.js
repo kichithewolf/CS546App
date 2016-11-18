@@ -16,7 +16,9 @@ function validateLogin() {
 
 function validateRegister() {
 	var regex = /\S+@\S+\.\S+/;
-    var patt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/;    
+    var patt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+    // this regex is more restrictive than the description (and maybe too much) since it also has a "special char" requirement
+    //var patt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/;
     var x = document.forms["registerCollective"]["username"].value;
 	var y = document.forms["registerCollective"]["username2"].value;
     var err = document.getElementById("err");
@@ -65,7 +67,7 @@ function validateRegister() {
         return false;
     }
 	if (c != d) {
-        err.innerHTML= "Passwords doesnt' match!";
+        err.innerHTML= "Passwords don't match!";
         err.classList.remove("hidden");
 		return false;
 	}
@@ -73,7 +75,7 @@ function validateRegister() {
     {
         err.innerHTML= "Password must contain:<br> At least 8 characters <br> At least 1 number <br> At least 1 lowercase character <br> At least 1 uppercase character";
         err.classList.remove("hidden");
-		return false  
+		return false;
     }
     return regex.test(a);
 }

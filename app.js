@@ -1,13 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const configRoutes = require("./routes");
+const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
+const session = require('express-session');
+
 const app = express();
 const static = express.static(__dirname + '/public');
-
-const configRoutes = require("./routes");
-
-const exphbs = require('express-handlebars');
-
-const Handlebars = require('handlebars');
 
 const handlebarsInstance = exphbs.create({
     defaultLayout: 'main',
@@ -35,10 +34,17 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     next();
 };
 
+// server-side session management
+var sess = {
+    secret: 'Dogs need social media accounts',
+    cookie: {}
+}
+
 app.use("/public", static);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
+app.use(session(sess));
 
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');

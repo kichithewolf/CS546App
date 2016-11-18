@@ -1,9 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
+const uuid = require('node-uuid');
 const users = mongoCollections.users;
 const posts = mongoCollections.posts;
-
-
-const uuid = require('node-uuid');
 
 let exportedMethods = {
     getAllPosts(userId) {
@@ -25,9 +23,10 @@ let exportedMethods = {
     },
 
     getPostById(posterId, postId) {
-        //TODO: check userId submitted against the userId of the post, must be equal before returning
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the post provided");
+        if (typeof posterId !== "string" || !posterId)
+            return Promise.reject("No posterId for the post provided");
 
         return posts().then((postsCollection) => {
 
@@ -73,9 +72,11 @@ let exportedMethods = {
 
     removePost(posterId, postId)
     {
-        //TODO: check userId submitted against the userId of the post, must be equal before deleting
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the recipe provided to be deleted");
+        if (typeof posterId !== "string" || !posterId)
+            return Promise.reject("No posterId for the post provided");
+
         return users().then((usersCollection) => {
             return usersCollection
                 .removeOne({ _id: postId , posterId: posterId })

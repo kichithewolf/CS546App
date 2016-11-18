@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
-const users = mongoCollections.users;
 const uuid = require('node-uuid');
 const bcrypt = require('bcryptjs');
+const users = mongoCollections.users;
 const saltRounds = 10;
 
 let exportedMethods = {
@@ -17,6 +17,20 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             return usersCollection
                 .findOne({ _id: id })
+                .then((user) => {
+                    if (!user)
+                        return Promise.reject("No user found");
+                    return user;
+                });
+        });
+    },
+
+    getUserByName(username) {
+        if (typeof username !== "string" || !username)
+            return Promise.reject("No username provided");
+        return users().then((usersCollection) => {
+            return usersCollection
+                .findOne({ username: username })
                 .then((user) => {
                     if (!user)
                         return Promise.reject("No user found");
@@ -65,6 +79,16 @@ let exportedMethods = {
         });
     },
 
+    //TODO: need a method to change a user email/password
+    updateUser(userId, username, email, password ){
+        return Promise.reject("Not implemented yet");
+    },
+
+    //TODO: need a method to change the set of accounts for a user
+    updateUserAccounts(userId, accounts){
+        return Promise.reject("Not implemented yet");
+    },
+
     login(username, password) {
         if (typeof username !== "string" || !username)
             return Promise.reject("No username provided");
@@ -76,7 +100,9 @@ let exportedMethods = {
                 if (user == null)
                     return Promise.reject("Sorry, this username does not exist");
                 else {
-                    return bcrypt.compareSync(password, user.password);
+                    if (!bcrypt.compareSync(password, user.password)) {
+                        return Promise.reject("Bad username or password! Hint: Password must be at least 8 characters long with at least 1 number, 1 lowercase character and 1 uppercase character.");
+                    }
                 }
             }).catch((err) => {
                 return Promise.reject(err);

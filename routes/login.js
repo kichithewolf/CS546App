@@ -12,12 +12,9 @@ router.post("/", (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    usersData.login(username, password).then((result) => {
-        if (result === true) {
-            //TODO: need to create a sessionId (cookie) and store authenticated userId in the server session state
-            res.redirect("/posts");
-        }
-
+    usersData.login(username, password).then(() => {
+        req.session.userId = username;
+        res.redirect("/posts");
     }).catch((e) => {
         res.render("login/login", { username: username, password: password, error: e });
     });
@@ -35,10 +32,10 @@ router.post("/register", (req, res) => {
     let password = req.body.password;
     
     usersData.addUser(username, email, password).then((result) => {
-            if (result === true) {
-                res.redirect("/login");
-            }
-        }).catch((e) => {
+        if (result === true) {
+            res.redirect("/login");
+        }
+    }).catch((e) => {
         res.render("login/register", { username: username, email: email, password: password, error: e });
     });
 });

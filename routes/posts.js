@@ -2,31 +2,77 @@ const express = require('express');
 const router = express.Router();
 const data = require("../data");
 const postData = data.posts;
+const userData = data.users;
 
 router.get("/", (req, res) => {
-    //TODO: get userid from session store based on sessionId in request
-    let user = 1; // dummy for now
-    postData.getAllPosts(user)
-        .then((posts) => {
-            // note that posts might be empty...
-            res.render("post/post", posts);
-        })
-        .catch((err) => {
-            res.render("misc/debug", {error: err});
-        });
+    let userId = req.session.userId;
+    if (!userId ){
+        res.redirect("/login");
+        return;
+    }
+    let viewModel = { };
+    userData.getUserByName(userId).then((user) => {
+        viewModel.username = user.username;
+        viewModel.accounts = user.accounts;
+        postData.getAllPosts(userId);
+    }).then((posts) => {
+        viewModel.posts = posts;
+        res.render("post/posts", viewModel);
+    })
+    .catch((err) => {
+        res.render("misc/debug", {error: err});
+    });
+});
+
+router.get("/configure", (req, res) => {
+    let userId = req.session.userId;
+    if (!userId ){
+        res.redirect("/login");
+        return;
+    }
+    let viewModel = { };
+    userData.getUserByName(userId).then((user) => {
+        viewModel.username = user.username;
+        viewModel.accounts = user.accounts;
+        res.render("post/configure", viewModel);
+    })
+    .catch((err) => {
+        res.render("misc/debug", {error: err});
+    });
 });
 
 router.get("/:id", (req, res) => {
-    //TODO: get the userId from session
-    let user = 1; // dummy for now
-    postData.getPost(userId, id)
-        .then((post) => {
-            // note that posts might be empty...
-            res.render("post/single", post);
-        })
-        .catch((err) => {
-            res.render("misc/debug", {error: err});
-        });
+    let userId = req.session.userId;
+    if (!userId ){
+        res.redirect("/login");
+        return;
+    }
+    let viewModel = { };
+    userData.getUserByName(userId).then((user) => {
+        viewModel.username = user.username;
+        viewModel.accounts = user.accounts;
+        postData.getPostById(userId, req.params.id);
+    }).then((post) => {
+        viewModel.post = post;
+        res.render("post/single", viewModel);
+    })
+    .catch((err) => {
+        res.render("misc/debug", {error: err});
+    });
+});
+
+router.post("/configure", (req, res) => {
+    let userId = req.session.userId;
+    if (!userId ){
+        res.redirect("/login");w
+        return;
+    }
+    userData.updateUserAccounts(userId, req.body.accounts).then(() => {
+        res.redirect("/posts");
+    })
+    .catch((err) => {
+        res.render("misc/debug", {error: err});
+    });
 });
 
 module.exports = router;

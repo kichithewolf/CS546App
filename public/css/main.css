@@ -66,7 +66,7 @@ address {
 /* Will be changed according to the what the team decides later */
 body {
     background: #FFF;
-    font-family: Lucida Grande/Tahoma,Century Gothic, Cambria, "Times New Roman", Times, serif;
+    font-family: Tahoma, Century Gothic, Cambria, "Times New Roman", Times, serif;
     font-size: 15pt;
     color: #3b5998 ;
 }
@@ -79,8 +79,28 @@ main {
 h1 {
     color: #3b5998;
     margin-bottom: 5px;
+    font-size: 2rem;
 }
 
-label{
-font-size: 13pt;
+label {
+    font-size: 13pt;
+}
+
+.banner {
+    width: 100%;
+    background-color: lightblue;
+}
+
+.left-banner {
+    float: left;
+    font-size: 2rem;
+}
+
+.right-banner {
+    float: right;
+    font-size: 1.5rem;
+}
+
+.container {
+    clear: both;
 }
