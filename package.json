@@ -25,8 +25,10 @@
     "express-session": "^1.14.2",
     "handlebars": "^4.0.5",
     "mongodb": "^2.2.11",
-    "node-uuid": "^1.4.7",
     "node-twitter-api": "^1.8.0",
+    "node-uuid": "^1.4.7",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
     "twitter": "^1.4.0"
   }
 }

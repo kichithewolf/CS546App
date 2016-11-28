@@ -1,7 +1,9 @@
+"use strict"
 const loginRoutes = require("./login");
 const postRoutes = require("./posts");
 const signIn = require("./signin");
 const post = require("./post");
+
 
 const constructorMethod = (app) => {
     app.use("/login", loginRoutes);

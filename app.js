@@ -1,11 +1,17 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const configRoutes = require("./routes");
 const exphbs = require('express-handlebars');
 const Handlebars = require('handlebars');
 const session = require('express-session');
+var passport = require('passport');
 
 const app = express();
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+const configRoutes = require("./routes");
+
 const static = express.static(__dirname + '/public');
 
 const handlebarsInstance = exphbs.create({
