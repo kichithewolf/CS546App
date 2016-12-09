@@ -1,3 +1,4 @@
+"use strict"
 const mongoCollections = require("../config/mongoCollections");
 const uuid = require('node-uuid');
 const users = mongoCollections.users;
@@ -11,7 +12,7 @@ let exportedMethods = {
         return posts().then((postsCollection) => {
 
             return postsCollection
-                .find({ posterId: userId })
+                .find({ creator: userId })
                 .toArray()
                 .then((post) => {
                     if (post.length==0)
@@ -22,16 +23,16 @@ let exportedMethods = {
         });
     },
 
-    getPostById(posterId, postId) {
+    getPostById(creator, postId) {
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the post provided");
-        if (typeof posterId !== "string" || !posterId)
-            return Promise.reject("No posterId for the post provided");
+        if (typeof creator !== "string" || !creator)
+            return Promise.reject("No creator for the post provided");
 
         return posts().then((postsCollection) => {
 
             return postsCollection
-                .findOne({ _id: postId, posterId:posterId })
+                .findOne({ _id: postId, creator: creator})
                 .then((post) => {
                     if (!post)
                         return Promise.reject("No post found");
@@ -40,18 +41,18 @@ let exportedMethods = {
         });
     },
 
-    addPost(post, posterId, accounts, image) {
+    addPost(post, creator, accounts, image) {
         if (typeof post !== "string" || !post)
             return Promise.reject("No text for the post provided");
-        if (typeof posterId !== "string" || !posterId)
-            return Promise.reject("No ID for the poster provided");
-        if (accounts.constructor === Array || !accounts)
+        if (typeof creator !== "string" || !creator)
+            return Promise.reject("No creator for the poster provided");
+        if (!Array.isArray(accounts))
             return Promise.reject("No accounts for the post provided");
        
         return posts().then((postsCollection) => {
                     let newPost = {
                         _id: uuid.v4(),
-                        posterId: posterId,
+                        creator: creator,
                         post: post,
                         image: image,
                         // imageType: image/png,
@@ -70,16 +71,16 @@ let exportedMethods = {
          });
     },
 
-    removePost(posterId, postId)
+    removePost(creator, postId)
     {
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the recipe provided to be deleted");
-        if (typeof posterId !== "string" || !posterId)
-            return Promise.reject("No posterId for the post provided");
+        if (typeof creator !== "string" || !creator)
+            return Promise.reject("No creator for the post provided");
 
         return users().then((usersCollection) => {
             return usersCollection
-                .removeOne({ _id: postId , posterId: posterId })
+                .removeOne({ _id: postId , creator: creator })
                 .then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         return Promise.reject("Could not delete the recipe");

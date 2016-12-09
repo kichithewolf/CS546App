@@ -1,3 +1,4 @@
+"use strict"
 var twitterAPI = require('node-twitter-api'),
     secret = require("../lib/secret");
 

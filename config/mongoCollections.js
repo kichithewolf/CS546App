@@ -1,3 +1,4 @@
+"use strict"
 const dbConnection = require("./mongoConnection");
 
 let getCollectionFn = (collection) => {

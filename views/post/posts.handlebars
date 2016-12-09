@@ -1,18 +1,53 @@
-<h1>Posts</h1>
+<h2>Create a Post</h2>
 
-{{#if accounts.length}}
-    <form>
-        <label for="postText">Post:</label>
-        <textarea id="postText" placeholder="Type your post here"></textarea>
-        {{#each accounts}}{{accountUserName}} ({{type}}{{/each}}
-        <button type="submit">Post It!</button>
-    </form>
-{{else}}
-    You can't post until you configure your social media accounts!
-{{/if}}
+<form class="server-form" method="post">
+    <div class="form-group">
+        <textArea class="form-control" id="postContent" name="postContent" placeholder="What's on your mind?">{{postContent}}</textarea>
+
+        <p>Select (or log in) to accounts:</p>
+
+        <p>{{#if facebookUser}}
+            <label><input type="checkbox" id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>
+        {{else}}
+            <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="signin/fb" class="btn btn-default">Log In</button></label>
+        {{/if}}
+        </p>
+
+        <p>
+        {{#if twitterUser}}
+            <label><input type="checkbox" id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>
+        {{else}}
+            <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="signin/tw" class="btn btn-default">Log In</button></label>
+        {{/if}}
+        </p>
+
+        <p><button type="submit" formaction="/posts" class="btn btn-default">Post</button></p>
+
+    </div>
+    {{#if error}}
+        <div class="form-group">
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        </div>
+    {{/if}}
+    {{#if result }}
+        <div class="form-group">
+            <div class="alert alert-success">
+                {{ result }}
+            </div>
+        </div>
+    {{/if}}
+</form>
+
 <h2>Past Posts</h2>
 {{#if posts}}
-    {{posts}}
+    <ul>
+    {{#each posts}}
+        <li>Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}
+        <br/>{{post}}
+    {{/each}}
+    </ul>
 {{else}}
     No posts yet!
 {{/if}}

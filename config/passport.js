@@ -1,3 +1,4 @@
+"use strict"
 var Strategy = require('passport-facebook').Strategy;
 var secret = require("../lib/secret");
 const data = require("../data");

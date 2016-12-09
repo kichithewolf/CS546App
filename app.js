@@ -23,6 +23,10 @@ const handlebarsInstance = exphbs.create({
                 return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
         
             return new Handlebars.SafeString(JSON.stringify(obj));
+        },
+        prettyDate: (ms) => {
+            let d = new Date(ms);
+            return d.toLocaleString();
         }
     }
 });
@@ -59,5 +63,5 @@ configRoutes(app);
 
 app.listen(3000, () => {
     console.log("We've now got a server!");
-    console.log("Your routes will be running on http://localhost:3000");
+    console.log("Your routes will be running on http://localhost:3000/login");
 });
