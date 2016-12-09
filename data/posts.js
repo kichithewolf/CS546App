@@ -23,6 +23,26 @@ let exportedMethods = {
         });
     },
 
+    getMostRecentPosts(userId, limit = 20) {
+        if (typeof userId !== "string" || !userId)
+            return Promise.reject("No ID for the user provided");
+
+        return posts().then((postsCollection) => {
+
+            return postsCollection
+                .find({ creator: userId })
+                .sort({ createdOn: -1 })
+                .limit( limit )
+                .toArray()
+                .then((post) => {
+                    if (post.length==0)
+                        return [];
+                    else
+                        return post;
+                });
+        });
+    },
+
     getPostById(creator, postId) {
         if (typeof postId !== "string" || !postId)
             return Promise.reject("No ID for the post provided");
@@ -56,6 +76,7 @@ let exportedMethods = {
                         post: post,
                         image: image,
                         // imageType: image/png,
+                        createdOn: Date.now(),
                         posts: accounts
                     };
 

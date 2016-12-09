@@ -4,8 +4,7 @@ const router = express.Router();
 const data = require("../data");
 const postData = data.posts;
 const userData = data.users;
-const api = require('../data/facebook');
-const fbMethods = data.fb;
+const facebook = data.fb;
 const twitter = data.twitter;
 
 router.get("/", (req, res) => {
@@ -22,7 +21,7 @@ router.get("/", (req, res) => {
     userData.getUserByName(userId).then((user) => {
         viewModel.username = user.username;
         viewModel.accounts = user.accounts;
-        return postData.getAllPosts(userId);
+        return postData.getMostRecentPosts(userId);
     }).then((posts) => {
         viewModel.posts = posts;
         res.render("post/posts", viewModel);
@@ -41,11 +40,7 @@ router.post('/', (req, res) => {
     if (req.session.facebookUser)
         viewModel.facebookUser = req.session.facebookUser;
 
-
-    //TODO: this has to be changed to allow async post to twitter and fb and re-join after completing both to update page and database!!
-    // also, addPost is async and success/error not handled yet
-    let token = fbMethods.getAccessToken();
-    api.postMessage(req.body.facebook, token, postContent, res)
+    facebook.postMessage(req.body.facebook, postContent)
         .then((msg) => {
             if (msg) {
                 console.log("posted to FB");
@@ -74,11 +69,10 @@ router.post('/', (req, res) => {
         })
         .catch((err) => {
             console.log("error saving");
-            return postData.getAllPosts(userId);
         })
         .then(() => {
             console.log("saved post");
-            return postData.getAllPosts(userId);
+            return postData.getMostRecentPosts(userId);
         })
         .then((posts) => {
             console.log("retrieved posts, rendering");
@@ -89,29 +83,7 @@ router.post('/', (req, res) => {
         });
 });
 
-router.get("/twitter", (req, res) => {
-    var token = req.query.oauth_token,
-        verifier = req.query.oauth_verifier;
-
-    twitter.getAccessToken(token, verifier).then((accessToken) => {
-        twitter.verifyCredentials(accessToken).then((user) => {
-            let userId = req.session.collectiveUser;
-            req.session.twitterUser = user.name;
-            res.redirect("/posts");
-        }).catch((err) => {
-            let viewModel = {error: err.data};
-            res.render("post/posts", viewModel);
-        });
-    });
-});
-
-router.get("/facebook", (req, res) => {
-    if (req.user.displayName !== undefined)
-        req.session.facebookUser = req.user.displayName;
-    res.redirect("/posts");
-});
-
-router.get("/:id", (req, res) => {
+router.get("/post/:id", (req, res) => {
     let userId = req.session.collectiveUser;
     if (!userId) {
         res.redirect("/login");
@@ -129,6 +101,7 @@ router.get("/:id", (req, res) => {
         res.render("misc/debug", {error: err});
     });
 });
+
 
 
 module.exports = router;

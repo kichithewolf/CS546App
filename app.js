@@ -82,12 +82,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     next();
 };
 
-// server-side session management
-var sess = {
-    secret: 'Dogs need social media accounts',
-    cookie: {}
-}
-
 app.use(rewriteUnsupportedBrowserMethods);
 
 app.engine('handlebars', handlebarsInstance.engine);

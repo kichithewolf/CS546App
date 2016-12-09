@@ -7,7 +7,7 @@
         <p>Select (or log in) to accounts:</p>
 
         <p>{{#if facebookUser}}
-            <label><input type="checkbox" id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>
+            <label><input type="checkbox" checked id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>
         {{else}}
             <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/fb" class="btn btn-default">Log In</button></label>
         {{/if}}
@@ -15,7 +15,7 @@
 
         <p>
         {{#if twitterUser}}
-            <label><input type="checkbox" id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>
+            <label><input type="checkbox" checked id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>
         {{else}}
             <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/tw" class="btn btn-default">Log In</button></label>
         {{/if}}
@@ -40,11 +40,11 @@
     {{/if}}
 </form>
 
-<h2>Past Posts</h2>
+<h2>Most Recent Posts</h2>
 {{#if posts}}
-    <ul>
+    <ul class="post-list">
     {{#each posts}}
-        <li>Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}
+        <li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}
         <br/>{{post}}
     {{/each}}
     </ul>
