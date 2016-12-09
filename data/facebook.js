@@ -1,8 +1,13 @@
 "use strict"
-var request = require('request');
+const  request = require('request');
 
-function postMessage(access_token, message) {
+function postMessage(process, access_token, message) {
     return new Promise((fulfill, reject) => {
+        // this just means we're exiting quickly without posted to FB
+        if (!process) {
+            fulfill();
+            return;
+        }
         var url = 'https://graph.facebook.com/me/feed';
         var params = {
             access_token: access_token,

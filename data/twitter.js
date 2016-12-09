@@ -1,18 +1,18 @@
 "use strict"
-var twitterAPI = require('node-twitter-api'),
+const twitterAPI = require('node-twitter-api'),
     secret = require("../lib/secret");
 
-var twitter = new twitterAPI({
+let twitter = new twitterAPI({
     consumerKey: secret.twitter.consumerKey,
     consumerSecret: secret.twitter.consumerSecret,
     callback: secret.twitter.callbackUrl
 });
 
-var requestToken;
-var requestSecret;
-var accessToken;
-var accessSecret;
-var oauth_verifier;
+let requestToken;
+let requestSecret;
+let accessToken;
+let accessSecret;
+let oauth_verifier;
 
 let exportedMethods = {
     getRequestToken() {
@@ -47,7 +47,7 @@ let exportedMethods = {
     },
 
     verifyCredentials(token) {
-       // let accessSecret = accessSecret;
+        // let accessSecret = accessSecret;
         return new Promise(function (resolve, reject) {
             twitter.verifyCredentials(token, accessSecret, function (err, user) {
                 if (err) reject(err);
@@ -56,24 +56,29 @@ let exportedMethods = {
         });
     },
 
-    textTweet(text) {
-       // let accessSecret = accessSecret;
+    textTweet(process, text) {
+        // let accessSecret = accessSecret;
         return new Promise(function (resolve, reject) {
-                twitter.statuses("update", {
-                        status: text
-                    },
-                    accessToken,
-                    accessSecret,
-                    function(error, data, response) {
-                        if (error) {
-                            // something went wrong 
-                            reject(error);
-                        } else {
-                            // data contains the data sent by twitter 
-                            resolve(response);
-                        }
+            // exit immediately without actually tweeting
+            if (!process) {
+                resolve();
+                return;
+            }
+            twitter.statuses("update", {
+                    status: text
+                },
+                accessToken,
+                accessSecret,
+                function (error, data, response) {
+                    if (error) {
+                        // something went wrong
+                        reject(error);
+                    } else {
+                        // data contains the data sent by twitter
+                        resolve(response);
                     }
-                );
+                }
+            );
         });
     }
 

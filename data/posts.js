@@ -63,10 +63,12 @@ let exportedMethods = {
                         if (newInsertInformation.result.ok !== 1) {
                             return Promise.reject("Could not execute the command");
                         }
-                        else
+                        else {
+                            console.log(`Post saved with id ${newInsertInformation.insertedId}`);
                             return newInsertInformation.insertedId;
+                        }
                     }).then((newId) => {
-                        return this.getPostById(newId);
+                        return this.getPostById(creator, newId);
                     });
          });
     },

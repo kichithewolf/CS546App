@@ -1,29 +1,17 @@
 "use strict"
-var passport = require('passport');
-var Strategy = require('passport-facebook').Strategy;
+const passport = require('passport');
+const Strategy = require('passport-facebook').Strategy;
 const secret = require("../lib/secret");
 
-var accessToken;
+let accessToken;
 
 let exportedMethods = {
     setAccessToken(token) {
-        return new Promise(function (resolve, reject) {
-            if (token == null)
-                reject(err);
-            else {
-                accessToken = token;
-                resolve("Access token saved");
-            }
-        });
+        accessToken = token;
     },
 
     getAccessToken() {
-        return new Promise(function (resolve, reject) {
-            if (accessToken == null)
-                reject(err);
-            else 
-                resolve(accessToken);
-        });
+        return accessToken;
     }
 };
 

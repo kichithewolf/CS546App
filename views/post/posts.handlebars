@@ -9,7 +9,7 @@
         <p>{{#if facebookUser}}
             <label><input type="checkbox" id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>
         {{else}}
-            <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="signin/fb" class="btn btn-default">Log In</button></label>
+            <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/fb" class="btn btn-default">Log In</button></label>
         {{/if}}
         </p>
 
@@ -17,7 +17,7 @@
         {{#if twitterUser}}
             <label><input type="checkbox" id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>
         {{else}}
-            <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="signin/tw" class="btn btn-default">Log In</button></label>
+            <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/tw" class="btn btn-default">Log In</button></label>
         {{/if}}
         </p>
 

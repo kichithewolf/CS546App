@@ -1,18 +1,56 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const exphbs = require('express-handlebars');
 const Handlebars = require('handlebars');
-const session = require('express-session');
-var passport = require('passport');
+const passport = require('passport');
+const passportLocal = require('passport-local').Strategy;
+const expressSession = require('express-session');
+const bcrypt = require("bcryptjs");
+const data = require("./data");
+const usersData = data.users;
+const configRoutes = require("./routes");
+const morgan = require('morgan');
 
 const app = express();
-// Initialize Passport and restore authentication state, if any, from the
-// session.
+app.use(morgan('combined'));
+app.use("/public", express.static(__dirname + '/public'));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSession({secret: 'Social Media for Dogs!'}));
 app.use(passport.initialize());
 app.use(passport.session());
-const configRoutes = require("./routes");
 
-const static = express.static(__dirname + '/public');
+passport.use(new passportLocal( { },
+    function(username, password, done) {
+        usersData.getUserByName(username).then((user) => {
+            if (!user) {
+                return done(null, false, {message: 'Unknown username.'});
+            }
+            if (!bcrypt.compareSync(password, user.password)) {
+                return done(null, false, {message: 'Incorrect password.'});
+            }
+            return done(null, user);
+        }).catch(() => {
+            return done(null, false, {message: 'Error retrieving user.'});
+        });
+    })
+);
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user.username);
+});
+
+passport.deserializeUser(function(id, cb) {
+    usersData.getUserByName(id).then((user) => {
+        if (!user)
+            return cb("User not found");
+        cb(null, user);
+    }).catch(() => {
+        return cb("User not found");
+    });
+});
 
 const handlebarsInstance = exphbs.create({
     defaultLayout: 'main',
@@ -50,11 +88,7 @@ var sess = {
     cookie: {}
 }
 
-app.use("/public", static);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
-app.use(session(sess));
 
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');

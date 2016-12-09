@@ -20,15 +20,18 @@
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.14.2",
     "handlebars": "^4.0.5",
     "mongodb": "^2.2.11",
+    "morgan": "^1.7.0",
     "node-twitter-api": "^1.8.0",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0",
     "twitter": "^1.4.0"
   }
 }

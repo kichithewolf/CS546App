@@ -3,23 +3,28 @@ const express = require('express');
 const router = express.Router();
 const data = require("../data");
 const usersData = data.users;
-
+const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
 
 router.get("/", (req, res) => {
     res.render("login/login", {});
 });
 
-router.post("/", (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-
-    usersData.login(username, password).then(() => {
-        req.session.userId = username;
-        res.redirect("/posts");
-    }).catch((e) => {
-        res.render("login/login", { username: username, password: password, error: e });
-    });
-
+router.post("/", (req, res, next) => {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.render("login/login", { username: username, password: password, error: 'Invalid user name or password' });
+        }
+        req.login(user, loginErr => {
+            if (loginErr) {
+                return next(loginErr);
+            }
+            req.session.collectiveUser = user.username;
+            return res.redirect("/posts");
+        });
+    })(req, res, next);
 });
 
 router.get("/register", (req, res) => {
