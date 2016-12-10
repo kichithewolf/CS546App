@@ -59,13 +59,13 @@ router.post('/', upload.single('displayImage'), (req, res) => {
     if (req.session.facebookUser)
         viewModel.facebookUser = req.session.facebookUser;
 
-    if(imageObject && (imageObject.mimetype!=="image/jpeg" || imageObject.mimetype!=="image/png" || imageObject.mimetype!=="image/gif"))
+    if(imageObject && (imageObject.mimetype!=="image/jpeg" && imageObject.mimetype!=="image/png" && imageObject.mimetype!=="image/gif"))
     {
         res.render("post/posts", {error: "Please upload only JPEG, PNG and GIF images!"});
         return;
     }
 
-    facebook.postMessage(req.body.facebook, postContent)
+    facebook.postMessage(req.body.facebook, postContent, filePath)
         .then((msg) => {
             if (msg) {
                 console.log("posted to FB");
