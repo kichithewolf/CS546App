@@ -7,6 +7,7 @@ How to run project:
   4. From root of project folder, `npm install` the following packages:
     * `bcryptjs`
     * `body-parser`
+    * `cookie-parser`
     * `express`
     * `express-handlebars`
     * `express-session`
