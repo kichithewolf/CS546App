@@ -54,11 +54,12 @@ passport.deserializeUser(function (obj, cb) {
 });
 
 router.post('/fb', passport.authenticate('facebook', {
+    scope: ['publish_actions'],
     successRedirect: '/signin/fb',
     failureRedirect: '/'
 }));
 
-router.get('/fb', passport.authenticate('facebook', {failureRedirect: '/posts'}),
+router.get('/fb', passport.authenticate('facebook', {scope: ['publish_actions'], failureRedirect: '/posts'}),
     function (req, res) {
         if (req.user.displayName !== undefined)
             req.session.facebookUser = req.user.displayName;

@@ -24,7 +24,7 @@ let exportedMethods = {
             }
             let url = 'https://graph.facebook.com/me/feed';
             let params = {
-                access_token: access_token,
+                access_token: accessToken,
                 message: message
             };
 
