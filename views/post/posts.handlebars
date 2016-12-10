@@ -44,8 +44,7 @@
 {{#if posts}}
     <ul class="post-list">
     {{#each posts}}
-        <li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}
-        <br/>{{post}}
+    <a href="/posts/post/{{_id}}"><li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}</li></a>
     {{/each}}
     </ul>
 {{else}}

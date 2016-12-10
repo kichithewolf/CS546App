@@ -1,3 +1,8 @@
-<h1>Single post</h1>
-
-{{post}}
+<h1>Posted through Collective</h1>
+Created by: {{creator}} on {{prettyDate createdOn}}
+<h2>Posted to:</h2>
+<ul>
+{{#each this.posts}}<li>{{accountType}} on {{prettyDate sent}}</li>{{/each}}
+</ul>
+<h2>Post:</h2>
+<div class="Post">{{this.post}}</div>
