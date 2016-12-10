@@ -11,6 +11,7 @@ const data = require("./data");
 const usersData = data.users;
 const configRoutes = require("./routes");
 const morgan = require('morgan');
+const path = require('path');
 
 const app = express();
 app.use(morgan('combined'));
@@ -18,31 +19,31 @@ app.use("/public", express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressSession({secret: 'Social Media for Dogs!'}));
+app.use(expressSession({ secret: 'Social Media for Dogs!' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new passportLocal( { },
-    function(username, password, done) {
+passport.use(new passportLocal({},
+    function (username, password, done) {
         usersData.getUserByName(username).then((user) => {
             if (!user) {
-                return done(null, false, {message: 'Unknown username.'});
+                return done(null, false, { message: 'Unknown username.' });
             }
             if (!bcrypt.compareSync(password, user.password)) {
-                return done(null, false, {message: 'Incorrect password.'});
+                return done(null, false, { message: 'Incorrect password.' });
             }
             return done(null, user);
         }).catch(() => {
-            return done(null, false, {message: 'Error retrieving user.'});
+            return done(null, false, { message: 'Error retrieving user.' });
         });
     })
 );
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser(function (user, cb) {
     cb(null, user.username);
 });
 
-passport.deserializeUser(function(id, cb) {
+passport.deserializeUser(function (id, cb) {
     usersData.getUserByName(id).then((user) => {
         if (!user)
             return cb("User not found");
@@ -59,7 +60,7 @@ const handlebarsInstance = exphbs.create({
         asJSON: (obj, spacing) => {
             if (typeof spacing === "number")
                 return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
-        
+
             return new Handlebars.SafeString(JSON.stringify(obj));
         },
         prettyDate: (ms) => {

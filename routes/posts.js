@@ -1,4 +1,5 @@
 "use strict"
+const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const data = require("../data");
@@ -6,6 +7,8 @@ const postData = data.posts;
 const userData = data.users;
 const facebook = data.fb;
 const twitter = data.twitter;
+var multer = require('multer')
+const upload = multer({ dest: 'uploads/' });
 
 router.get("/", (req, res) => {
     let userId = req.session.collectiveUser;
@@ -26,43 +29,70 @@ router.get("/", (req, res) => {
         viewModel.posts = posts;
         res.render("post/posts", viewModel);
     }).catch((err) => {
-        res.render("misc/debug", {error: err});
+        res.render("misc/debug", { error: err });
     });
 });
 
-router.post('/', (req, res) => {
+// router.post('/upload', upload.single('displayImage'), function (req, res) {
+//    // let image = req.files.image;
+//     fs.readFile(req.file.path, function (err, data) {
+//         return twitter.imageTweet(req.body.twitter, "Image, b", data);
+//     });
+// });
+
+router.post('/', upload.single('displayImage'), (req, res) => {
     let accountsPosted = [];
     let postContent = req.body.postContent;
     let userId = req.session.collectiveUser;
-    let viewModel = {username: userId};
+    let viewModel = { username: userId };
+    let imageObject;
+    let filePath;
+
+    if(req.file)
+    {
+        imageObject = req.file;
+        filePath = req.file.path;
+    }
+
     if (req.session.twitterUser)
         viewModel.twitterUser = req.session.twitterUser;
     if (req.session.facebookUser)
         viewModel.facebookUser = req.session.facebookUser;
 
+    if(imageObject && (imageObject.mimetype!=="image/jpeg" || imageObject.mimetype!=="image/png" || imageObject.mimetype!=="image/gif"))
+    {
+        res.render("post/posts", {error: "Please upload only JPEG, PNG and GIF images!"});
+        return;
+    }
+
     facebook.postMessage(req.body.facebook, postContent)
         .then((msg) => {
             if (msg) {
                 console.log("posted to FB");
-                accountsPosted.push({sent: Date.now(), accountType: "facebook", result: "success"});
+                accountsPosted.push({ sent: Date.now(), accountType: "facebook", result: "success" });
             }
         })
         .catch((msg) => {
             console.log("error posting to FB");
-            accountsPosted.push({sent: Date.now(), accountType: "facebook", result: "failed"});
+          //  accountsPosted.push({ sent: Date.now(), accountType: "facebook", result: "failed" });
         })
         .then(() => {
-            return twitter.textTweet(req.body.twitter, postContent);
+            if (!filePath)
+                return twitter.textTweet(req.body.twitter, postContent);
+            else
+                fs.readFile(filePath, function (err, data) {
+                    return twitter.imageTweet(req.body.twitter, postContent, data);
+                });
         })
         .then((data) => {
             if (data) {
                 console.log("tweeted");
-                accountsPosted.push({sent: Date.now(), accountType: "twitter", result: "success"});
+                accountsPosted.push({ sent: Date.now(), accountType: "twitter", result: "success" });
             }
         })
         .catch((err) => {
             console.log("error tweeting");
-            accountsPosted.push({sent: Date.now(), accountType: "twitter", result: "failed"});
+       //     accountsPosted.push({ sent: Date.now(), accountType: "twitter", result: "failed" });
         })
         .then(() => {
             return postData.addPost(postContent, req.session.collectiveUser, accountsPosted);
@@ -79,7 +109,7 @@ router.post('/', (req, res) => {
             viewModel.posts = posts;
             res.render("post/posts", viewModel);
         }).catch((err) => {
-            res.render("misc/debug", {error: err});
+            res.render("misc/debug", { error: err });
         });
 });
 
@@ -98,7 +128,7 @@ router.get("/post/:id", (req, res) => {
         viewModel.post = post;
         res.render("post/single", viewModel);
     }).catch((err) => {
-        res.render("misc/debug", {error: err});
+        res.render("misc/debug", { error: err });
     });
 });
 
