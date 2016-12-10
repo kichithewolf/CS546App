@@ -65,8 +65,8 @@ let exportedMethods = {
                 return;
             }
             twitter.statuses("update", {
-                    status: text
-                },
+                status: text
+            },
                 accessToken,
                 accessSecret,
                 function (error, data, response) {
@@ -79,6 +79,47 @@ let exportedMethods = {
                     }
                 }
             );
+        });
+    },
+
+    imageTweet(process, text, image) {
+        // let accessSecret = accessSecret;
+        return new Promise(function (resolve, reject) {
+            // exit immediately without actually tweeting
+            if (!process) {
+                resolve();
+                return;
+            }
+
+          return twitter.uploadMedia({ media: image },
+                accessToken,
+                accessSecret,
+                function (error, data, response) {
+                    if (error) {
+                        // something went wrong
+                        reject(error);
+                    } else {
+                        // data contains the data sent by twitter
+                        let mediaIdStr = data.media_id_string;
+                        
+                        return twitter.statuses("update", {
+                            status: text,
+                            media_ids: [mediaIdStr]
+                        },
+                            accessToken,
+                            accessSecret,
+                            function (error, data, response) {
+                                if (error) {
+                                    // something went wrong
+                                    reject(error);
+                                } else {
+                                    // data contains the data sent by twitter
+                                    resolve(response);
+                                }
+                            }
+                        );
+                    }
+                });
         });
     }
 

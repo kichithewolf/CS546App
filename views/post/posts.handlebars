@@ -1,49 +1,51 @@
 <h2>Create a Post</h2>
 
-<form class="server-form" method="post">
+<form class="server-form" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <textArea class="form-control" id="postContent" name="postContent" placeholder="What's on your mind?">{{postContent}}</textarea>
+
+        <div><p><input type="file" name="displayImage" id = "displayImage" accept="image/x-png,image/gif,image/jpeg"></p></div>
 
         <p>Select (or log in) to accounts:</p>
 
         <p>{{#if facebookUser}}
-            <label><input type="checkbox" checked id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>
-        {{else}}
-            <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/fb" class="btn btn-default">Log In</button></label>
-        {{/if}}
+            <label><input type="checkbox" checked id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>            {{else}}
+            <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/fb" class="btn btn-default">Log In</button></label>            {{/if}}
         </p>
 
         <p>
-        {{#if twitterUser}}
-            <label><input type="checkbox" checked id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>
-        {{else}}
-            <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/tw" class="btn btn-default">Log In</button></label>
-        {{/if}}
+            {{#if twitterUser}}
+            <label><input type="checkbox" checked id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>            {{else}}
+            <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/tw" class="btn btn-default">Log In</button></label>            {{/if}}
         </p>
 
         <p><button type="submit" formaction="/posts" class="btn btn-default">Post</button></p>
 
     </div>
     {{#if error}}
-        <div class="form-group">
-            <div class="alert alert-danger">
-                {{ error }}
-            </div>
+    <div class="form-group">
+        <div class="alert alert-danger">
+            {{ error }}
         </div>
-    {{/if}}
-    {{#if result }}
-        <div class="form-group">
-            <div class="alert alert-success">
-                {{ result }}
-            </div>
+    </div>
+    {{/if}} {{#if result }}
+    <div class="form-group">
+        <div class="alert alert-success">
+            {{ result }}
         </div>
+    </div>
     {{/if}}
 </form>
 
 <h2>Most Recent Posts</h2>
 {{#if posts}}
-    <ul class="post-list">
+<ul class="post-list">
     {{#each posts}}
+    <li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}
+        <br/>{{post}} {{/each}}
+</ul>
+{{else}}
+No posts yet! {{/if}
     <a href="/posts/post/{{_id}}"><li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}</li></a>
     {{/each}}
     </ul>
