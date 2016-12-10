@@ -13,10 +13,12 @@ How to run project:
     * `express-session`
     * `handlebars`
     * `mongodb`
+    * `morgan`
     * `node-twitter-api`
     * `node-uuid`
     * `passport`
     * `passport-facebook`
+    * `passport-local`
     * `twitter`
   5. Start the server using `npm start`
   6. Open a web browser and go to `http://localhost:3000/login`
