@@ -119,14 +119,10 @@ router.get("/post/:id", (req, res) => {
         res.redirect("/login");
         return;
     }
-    let viewModel = {};
     userData.getUserByName(userId).then((user) => {
-        viewModel.username = user.username;
-        viewModel.accounts = user.accounts;
         return postData.getPostById(userId, req.params.id);
     }).then((post) => {
-        viewModel.post = post;
-        res.render("post/single", viewModel);
+        res.render("post/single", post);
     }).catch((err) => {
         res.render("misc/debug", { error: err });
     });

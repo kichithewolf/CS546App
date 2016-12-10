@@ -44,4 +44,12 @@
     <li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}
         <br/>{{post}} {{/each}}
 </ul>
-{{else}} No posts yet! {{/if}}
+{{else}}
+No posts yet! {{/if}
+    <a href="/posts/post/{{_id}}"><li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}</li></a>
+    {{/each}}
+    </ul>
+{{else}}
+    No posts yet!
+{{/if}}
+
