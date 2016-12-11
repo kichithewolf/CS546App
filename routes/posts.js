@@ -75,13 +75,12 @@ router.post('/', upload.single('displayImage'), (req, res) => {
     facebook.postMessage(req.body.facebook, postContent, filePath)
         .then((msg) => {
             if (msg) {
-                console.log("posted to FB");
                 accountsPosted.push({ sent: Date.now(), accountType: "facebook", result: "success" });
             }
         })
         .catch((msg) => {
             viewModel.error = msg;
-            console.log("error posting to FB");
+            console.error("error posting to FB", msg);
             errFlag = 1;
         })
         .then(() => {
@@ -92,31 +91,28 @@ router.post('/', upload.single('displayImage'), (req, res) => {
         })
         .then((data) => {
             if (data) {
-                console.log("tweeted");
                 accountsPosted.push({ sent: Date.now(), accountType: "twitter", result: "success" });
             }
         })
         .catch((err) => {
             viewModel.error = JSON.parse(err.data).errors[0].message;
-            console.log("error tweeting");
+            console.error("error tweeting", viewModel.error);
             errFlag = 1;
         })
         .then(() => {
             if(!errFlag){
-            console.log("saved post");
-            return postData.addPost(postContent, filePath, req.session.collectiveUser, accountsPosted);
+                return postData.addPost(postContent, filePath, req.session.collectiveUser, accountsPosted);
             }
             else
             return;
         })
         .catch((err) => {
-            console.log("error saving", err);
+            console.error("error saving", err);
         })
         .then(() => {
             return postData.getMostRecentPosts(userId);
         })
         .then((posts) => {
-            console.log("retrieved posts, rendering");
             viewModel.posts = posts;
             res.render("post/posts", viewModel);
         }).catch((err) => {
@@ -147,7 +143,6 @@ router.get("/image/:name", (req, res) => {
     }
     return res.sendFile(req.params.name, { root: __dirname + '/../uploads/'} ,function(err) {
         if (err) {
-            console.log(err);
             res.status(err.status).end();
         }
     });

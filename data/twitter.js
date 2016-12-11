@@ -115,7 +115,7 @@ let exportedMethods = {
                                     } else {
                                         // data contains the data sent by twitter
                                         resolve(response);
-                                        console.log("success: image sent to twitter");
+                                        //console.log("success: image sent to twitter");
                                     }
                                 }
                             );

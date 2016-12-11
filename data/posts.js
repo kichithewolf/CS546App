@@ -84,7 +84,7 @@ let exportedMethods = {
                             return Promise.reject("Could not execute the command");
                         }
                         else {
-                            console.log(`Post saved with id ${newInsertInformation.insertedId}`);
+                            //console.log(`Post saved with id ${newInsertInformation.insertedId}`);
                             return Promise.resolve(newInsertInformation.insertedId);
                         }
                     }).then((newId) => {

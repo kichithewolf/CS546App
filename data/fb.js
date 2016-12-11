@@ -62,13 +62,13 @@ let exportedMethods = {
                 }
                 
                 var req = https.request(options, function (res){
-                    console.log(res);
+                    //console.log(res);
                 });
                 
                 form.pipe(req);
                 
                 req.on('error', function (error) {
-                    console.log(error);
+                    console.error(error);
                     reject(error);
                 });
 
@@ -77,7 +77,7 @@ let exportedMethods = {
             }
 
         }).catch(err => 
-        console.log("***************>>>>>>>>> err: "+err) 
+            console.error("***************>>>>>>>>> err: "+err)
         );
     }
 };

@@ -79,3 +79,11 @@ function validateRegister() {
     }
     return regex.test(a);
 }
+
+function countChar(val) {
+    var len = val.value.length;
+    if(len === 0)
+        $('#charNum').text("");
+    else
+        $('#charNum').text("Post length: " + len);
+};
