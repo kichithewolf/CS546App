@@ -54,7 +54,9 @@ router.post('/', upload.single('displayImage'), (req, res) => {
     let viewModel = { username: userId };
     let imageObject;
     let filePath;
-    let errFlag = 0;
+    let errFacebook = 0;
+    let errTwitter = 0;
+
     if(req.file)
     {
         imageObject = req.file;
@@ -81,7 +83,7 @@ router.post('/', upload.single('displayImage'), (req, res) => {
         .catch((msg) => {
             viewModel.error = msg;
             console.error("error posting to FB", msg);
-            errFlag = 1;
+            errFacebook = 1;
         })
         .then(() => {
             if (!filePath)
@@ -95,12 +97,12 @@ router.post('/', upload.single('displayImage'), (req, res) => {
             }
         })
         .catch((err) => {
-            viewModel.error = JSON.parse(err.data).errors[0].message;
+            viewModel.error = "Could not post to Twitter. Here's why: "+ JSON.parse(err.data).errors[0].message;
             console.error("error tweeting", viewModel.error);
-            errFlag = 1;
+            errTwitter = 1;
         })
         .then(() => {
-            if(!errFlag){
+            if(!(errTwitter && errFacebook)){
                 return postData.addPost(postContent, filePath, req.session.collectiveUser, accountsPosted);
             }
             else
