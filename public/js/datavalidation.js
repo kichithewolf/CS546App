@@ -16,7 +16,7 @@ function validateLogin() {
 
 function validateRegister() {
 	var regex = /\S+@\S+\.\S+/;
-    var patt = new RegExp("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/");
+    var patt = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/);
     var x = document.forms["registerCollective"]["username"].value;
 	var y = document.forms["registerCollective"]["username2"].value;
     var err = document.getElementById("err");
