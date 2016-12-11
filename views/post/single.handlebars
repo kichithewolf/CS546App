@@ -6,3 +6,4 @@ Created by: {{creator}} on {{prettyDate createdOn}}
 </ul>
 <h2>Post:</h2>
 <div class="Post">{{this.post}}</div>
+{{#if this.imageFile}}<img src="/posts/image/{{stripToFilename this.imageFile}}" width="200">{{/if}}

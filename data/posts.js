@@ -16,9 +16,9 @@ let exportedMethods = {
                 .toArray()
                 .then((post) => {
                     if (post.length==0)
-                        return [];
+                        return Promise.resolve([]);
                     else
-                        return post;
+                        return Promise.resolve(post);
                 });
         });
     },
@@ -36,9 +36,9 @@ let exportedMethods = {
                 .toArray()
                 .then((post) => {
                     if (post.length==0)
-                        return [];
+                        return Promise.resolve([]);
                     else
-                        return post;
+                        return Promise.resolve(post);
                 });
         });
     },
@@ -56,12 +56,12 @@ let exportedMethods = {
                 .then((post) => {
                     if (!post)
                         return Promise.reject("No post found");
-                    return post;
+                    return Promise.resolve(post);
                 });
         });
     },
 
-    addPost(post, creator, accounts, image) {
+    addPost(post, imageFile, creator, accounts) {
         if (typeof post !== "string" || !post)
             return Promise.reject("No text for the post provided");
         if (typeof creator !== "string" || !creator)
@@ -74,8 +74,7 @@ let exportedMethods = {
                         _id: uuid.v4(),
                         creator: creator,
                         post: post,
-                        image: image,
-                        // imageType: image/png,
+                        imageFile: imageFile,
                         createdOn: Date.now(),
                         posts: accounts
                     };
@@ -86,7 +85,7 @@ let exportedMethods = {
                         }
                         else {
                             console.log(`Post saved with id ${newInsertInformation.insertedId}`);
-                            return newInsertInformation.insertedId;
+                            return Promise.resolve(newInsertInformation.insertedId);
                         }
                     }).then((newId) => {
                         return this.getPostById(creator, newId);
@@ -107,7 +106,9 @@ let exportedMethods = {
                 .then((deletionInfo) => {
                     if (deletionInfo.deletedCount === 0) {
                         return Promise.reject("Could not delete the recipe");
-                    } else { }
+                    } else {
+                        return Promise.resolve(                        );
+                    }
                 });
         });
     }

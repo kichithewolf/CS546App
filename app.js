@@ -66,6 +66,9 @@ const handlebarsInstance = exphbs.create({
         prettyDate: (ms) => {
             let d = new Date(ms);
             return d.toLocaleString();
+        },
+        stripToFilename: (fileName) => {
+            return path.basename(fileName);
         }
     }
 });

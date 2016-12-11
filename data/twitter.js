@@ -1,6 +1,7 @@
 "use strict"
 const twitterAPI = require('node-twitter-api'),
     secret = require("../lib/secret");
+const fs = require('fs');
 
 let twitter = new twitterAPI({
     consumerKey: secret.twitter.consumerKey,
@@ -65,8 +66,8 @@ let exportedMethods = {
                 return;
             }
             twitter.statuses("update", {
-                status: text
-            },
+                    status: text
+                },
                 accessToken,
                 accessSecret,
                 function (error, data, response) {
@@ -82,7 +83,7 @@ let exportedMethods = {
         });
     },
 
-    imageTweet(process, text, image) {
+    imageTweet(process, text, filePath) {
         // let accessSecret = accessSecret;
         return new Promise(function (resolve, reject) {
             // exit immediately without actually tweeting
@@ -91,35 +92,36 @@ let exportedMethods = {
                 return;
             }
 
-          return twitter.uploadMedia({ media: image },
-                accessToken,
-                accessSecret,
-                function (error, data, response) {
-                    if (error) {
-                        // something went wrong
-                        reject(error);
-                    } else {
-                        // data contains the data sent by twitter
-                        let mediaIdStr = data.media_id_string;
-                        
-                        return twitter.statuses("update", {
-                            status: text,
-                            media_ids: [mediaIdStr]
-                        },
-                            accessToken,
-                            accessSecret,
-                            function (error, data, response) {
-                                if (error) {
-                                    // something went wrong
-                                    reject(error);
-                                } else {
-                                    // data contains the data sent by twitter
-                                    resolve(response);
+            fs.readFile(filePath, function (err, image) {
+                twitter.uploadMedia({media: image},
+                    accessToken,
+                    accessSecret,
+                    function (error, data, response) {
+                        if (error) {
+                            reject(error);
+                        } else {
+                            // data contains the data sent by twitter
+                            let mediaIdStr = data.media_id_string;
+
+                            twitter.statuses("update", {
+                                    status: text,
+                                    media_ids: [mediaIdStr]
+                                },
+                                accessToken,
+                                accessSecret,
+                                function (error, data, response) {
+                                    if (error) {
+                                        reject(error);
+                                    } else {
+                                        // data contains the data sent by twitter
+                                        resolve(response);
+                                        console.log("success: image sent to twitter");
+                                    }
                                 }
-                            }
-                        );
-                    }
-                });
+                            );
+                        }
+                    });
+            });
         });
     }
 

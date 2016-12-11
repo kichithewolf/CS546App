@@ -45,3 +45,6 @@ $RECYCLE.BIN/
 
 # node.js
 node_modules/
+
+# app instance data
+uploads/

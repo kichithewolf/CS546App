@@ -7,12 +7,11 @@ const postData = data.posts;
 const userData = data.users;
 const facebook = data.fb;
 const twitter = data.twitter;
-var multer = require('multer')
+const multer = require('multer')
 const crypto= require('crypto');
 const mime= require('mime');
 
-var multer = require('multer');
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/')
   },
@@ -22,7 +21,6 @@ var storage = multer.diskStorage({
     });
   }
 });
-
 const upload = multer({ storage: storage });
 
 router.get("/", (req, res) => {
@@ -47,13 +45,6 @@ router.get("/", (req, res) => {
         res.render("misc/debug", { error: err });
     });
 });
-
-// router.post('/upload', upload.single('displayImage'), function (req, res) {
-//    // let image = req.files.image;
-//     fs.readFile(req.file.path, function (err, data) {
-//         return twitter.imageTweet(req.body.twitter, "Image, b", data);
-//     });
-// });
 
 router.post('/', upload.single('displayImage'), (req, res) => {
     let accountsPosted = [];
@@ -88,16 +79,14 @@ router.post('/', upload.single('displayImage'), (req, res) => {
             }
         })
         .catch((msg) => {
+            viewModel.error = msg;
             console.log("error posting to FB");
-          //  accountsPosted.push({ sent: Date.now(), accountType: "facebook", result: "failed" });
         })
         .then(() => {
             if (!filePath)
                 return twitter.textTweet(req.body.twitter, postContent);
             else
-                fs.readFile(filePath, function (err, data) {
-                    return twitter.imageTweet(req.body.twitter, postContent, data);
-                });
+                return twitter.imageTweet(req.body.twitter, postContent, filePath);
         })
         .then((data) => {
             if (data) {
@@ -106,14 +95,14 @@ router.post('/', upload.single('displayImage'), (req, res) => {
             }
         })
         .catch((err) => {
+            viewModel.error = msg;
             console.log("error tweeting");
-       //     accountsPosted.push({ sent: Date.now(), accountType: "twitter", result: "failed" });
         })
         .then(() => {
-            return postData.addPost(postContent, req.session.collectiveUser, accountsPosted);
+            return postData.addPost(postContent, filePath, req.session.collectiveUser, accountsPosted);
         })
         .catch((err) => {
-            console.log("error saving");
+            console.log("error saving", err);
         })
         .then(() => {
             console.log("saved post");
@@ -143,6 +132,18 @@ router.get("/post/:id", (req, res) => {
     });
 });
 
-
+router.get("/image/:name", (req, res) => {
+    let userId = req.session.collectiveUser;
+    if (!userId) {
+        res.redirect("/login");
+        return;
+    }
+    return res.sendFile(req.params.name, { root: __dirname + '/../uploads/'} ,function(err) {
+        if (err) {
+            console.log(err);
+            res.status(err.status).end();
+        }
+    });
+});
 
 module.exports = router;

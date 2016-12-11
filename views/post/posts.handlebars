@@ -3,7 +3,7 @@
 <form class="server-form" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <textArea class="form-control" id="postContent" name="postContent" placeholder="What's on your mind?">{{postContent}}</textarea>
-        <div><p><input type="file" name="displayImage" id = "displayImage" accept="image/x-png,image/gif,image/jpeg"></p></div>
+        <div><label>Select image to post: <input type="file" name="displayImage" id = "displayImage" accept="image/x-png,image/gif,image/jpeg"></label></div>
 
         <p>Select (or log in) to accounts:</p>
 
@@ -46,7 +46,7 @@
 {{#if posts}}
 <ul class="post-list">
     {{#each posts}}
-        <a href="/posts/post/{{_id}}"><li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}{{/each}}</li></a>
+        <a href="/posts/post/{{_id}}"><li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}<br/>{{/each}}</li></a>
     {{/each}}
 </ul>
 {{else}}
