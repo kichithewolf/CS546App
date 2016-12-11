@@ -10,6 +10,7 @@ const twitter = data.twitter;
 const multer = require('multer')
 const crypto= require('crypto');
 const mime= require('mime');
+const xss = require('xss');
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -48,7 +49,7 @@ router.get("/", (req, res) => {
 
 router.post('/', upload.single('displayImage'), (req, res) => {
     let accountsPosted = [];
-    let postContent = req.body.postContent;
+    let postContent = xss(req.body.postContent);
     let userId = req.session.collectiveUser;
     let viewModel = { username: userId };
     let imageObject;

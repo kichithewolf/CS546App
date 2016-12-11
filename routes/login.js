@@ -4,6 +4,7 @@ const router = express.Router();
 const data = require("../data");
 const usersData = data.users;
 const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+const xss = require('xss');
 
 router.get("/", (req, res) => {
     res.render("login/login", {});
@@ -33,9 +34,9 @@ router.get("/register", (req, res) => {
 
 
 router.post("/register", (req, res) => {
-    let username = req.body.username;
-    let email = req.body.email;
-    let password = req.body.password;
+    let username = xss(req.body.username);
+    let email = xss(req.body.email);
+    let password = xss(req.body.password);
     
     usersData.addUser(username, email, password).then((result) => {
         if (result === true) {
@@ -46,18 +47,18 @@ router.post("/register", (req, res) => {
     });
 });
 
-// To check if the users are actually being added, just for debugging phase. To be removed later
-router.get("/getallusers", (req, res) => {
-    usersData.getAllUsers().then((usersCollection) => {
-        res.send(usersCollection);
-    });
-});
+// // To check if the users are actually being added, just for debugging phase. To be removed later
+// router.get("/getallusers", (req, res) => {
+//     usersData.getAllUsers().then((usersCollection) => {
+//         res.send(usersCollection);
+//     });
+// });
 
-// Just for debugging purpose. To be removed later.
-router.get("/removeallusers", (req, res) => {
-    usersData.removeAllUsers().then(() => {
-        res.send("ok");
-    });
-});
+// // Just for debugging purpose. To be removed later.
+// router.get("/removeallusers", (req, res) => {
+//     usersData.removeAllUsers().then(() => {
+//         res.send("ok");
+//     });
+// });
 
 module.exports = router;
