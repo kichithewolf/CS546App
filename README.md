@@ -14,12 +14,14 @@ How to run project:
     * `handlebars`
     * `mongodb`
     * `morgan`
+    * `multer`
     * `node-twitter-api`
     * `node-uuid`
     * `passport`
     * `passport-facebook`
     * `passport-local`
     * `twitter`
+    * `xss`
   5. Start the server using `npm start`
   6. Open a web browser and go to `http://localhost:3000/login`
   7. You should now be running Collective
