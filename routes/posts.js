@@ -53,7 +53,7 @@ router.post('/', upload.single('displayImage'), (req, res) => {
     let viewModel = { username: userId };
     let imageObject;
     let filePath;
-
+    let errFlag = 0;
     if(req.file)
     {
         imageObject = req.file;
@@ -81,6 +81,7 @@ router.post('/', upload.single('displayImage'), (req, res) => {
         .catch((msg) => {
             viewModel.error = msg;
             console.log("error posting to FB");
+            errFlag = 1;
         })
         .then(() => {
             if (!filePath)
@@ -95,17 +96,22 @@ router.post('/', upload.single('displayImage'), (req, res) => {
             }
         })
         .catch((err) => {
-            viewModel.error = msg;
+            viewModel.error = JSON.parse(err.data).errors[0].message;
             console.log("error tweeting");
+            errFlag = 1;
         })
         .then(() => {
+            if(!errFlag){
+            console.log("saved post");
             return postData.addPost(postContent, filePath, req.session.collectiveUser, accountsPosted);
+            }
+            else
+            return;
         })
         .catch((err) => {
             console.log("error saving", err);
         })
         .then(() => {
-            console.log("saved post");
             return postData.getMostRecentPosts(userId);
         })
         .then((posts) => {

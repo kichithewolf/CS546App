@@ -3,15 +3,24 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Collective</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
     <link rel ="stylesheet" href ="/public/css/main.css">
-
+    <script>
+      function countChar(val) {
+        var len = val.value.length;
+        if(len === 0)
+        $('#charNum').text("");
+        else
+        $('#charNum').text(len);
+      };
+    </script>
 </head>
 
 <body>
-    <div class="banner"><p class="center-banner"> <a href="/login">Collective</a></p>{{#if username}}<p class="user-banner">Welcome {{username}}!</p>{{/if}}</div>
+    <div class="banner"><p class="center-banner"> <a href="/posts">Collective</a></p></div>
     <main class="container">
         <div class="row">
             <div class="col-sm-6">

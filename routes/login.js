@@ -15,7 +15,7 @@ router.post("/", (req, res, next) => {
             return next(err);
         }
         if (!user) {
-            return res.render("login/login", { username: username, password: password, error: 'Invalid user name or password' });
+            return res.render("login/login", { username: req.body.username, password: req.body.password, error: 'Invalid user name or password' });
         }
         req.login(user, loginErr => {
             if (loginErr) {

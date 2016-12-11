@@ -65,14 +65,14 @@ address {
 
 /* Will be changed according to the what the team decides later */
 body {
-    background: #FFF;
+    background: #f9f9f9;
     font-family: Tahoma, Century Gothic, Cambria, "Times New Roman", Times, serif;
     font-size: 15pt;
     color: #3b5998 ;
 }
 
 main {
-    max-width: 75%;
+    max-width: 100%;
     margin: auto;
 }
 
@@ -80,6 +80,9 @@ h1 {
     color: #3b5998;
     margin-bottom: 5px;
     font-size: 2rem;
+}
+h2 {
+    font-size: 1.75rem;
 }
 
 label {
@@ -92,19 +95,34 @@ label {
 }
 
 .left-banner {
-    float: left;
-    font-size: 2rem;
+    margin-left:0; 
+    margin-right:auto;
 }
 
 .user-banner {
-    float: left;
-    font-size: 1.5rem;
+    text-align: center;   
+    font-size: 2rem;
+    font-style: italic;
 }
 
 .center-banner {
+    text-align: center;
     font-size: 3rem;
 }
 
 .container {
     clear: both;
+} 
+
+.left-banner-big {
+    margin-left:0; 
+    margin-right:auto;
+    font-size: 3rem;
+}
+
+.post-div {
+    background-color: #FFFFFF;
+    border: 1px solid #DFE0E4;
+    padding: 15px 20px;
+    margin: 20px 0;
 }

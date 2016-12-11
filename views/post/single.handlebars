@@ -1,9 +1,15 @@
-<h1>Posted through Collective</h1>
-Created by: {{creator}} on {{prettyDate createdOn}}
-<h2>Posted to:</h2>
+<div class="row">
+<div class="container">
+<div class ="post-div">
+<h1 class="page-header" style = "font-weight: bold;">Post:</h1>
+<div class="Post">{{this.post}}</div>
+{{#if this.imageFile}}<img src="/posts/image/{{stripToFilename this.imageFile}}" width="200" alt="Post's Image'">{{/if}}
+<h1 class="page-header" style = "font-weight: bold;">Post Date:</h1>
+<p>{{prettyDate createdOn}} </p>
+<h1 class="page-header" style = "font-weight: bold;">Posted to:</h1>
 <ul>
 {{#each this.posts}}<li>{{accountType}} on {{prettyDate sent}}</li>{{/each}}
 </ul>
-<h2>Post:</h2>
-<div class="Post">{{this.post}}</div>
-{{#if this.imageFile}}<img src="/posts/image/{{stripToFilename this.imageFile}}" width="200">{{/if}}
+</div>
+</div>
+</div>

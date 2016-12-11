@@ -1,56 +1,82 @@
-<h2>Create a Post</h2>
+<div class="row">
+    <div class="container">
+        <div>{{#if username}}
+            <p class="user-banner">Welcome {{username}}!</p>{{/if}}</div>
+        <div class="post-div">
+            <h1 class="left-banner-big">Create a Post</h1>
 
-<form class="server-form" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <textArea class="form-control" id="postContent" name="postContent" placeholder="What's on your mind?">{{postContent}}</textarea>
-        <div><label>Select image to post: <input type="file" name="displayImage" id = "displayImage" accept="image/x-png,image/gif,image/jpeg"></label></div>
+            <form class="server-form" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="postContent">Enter text to post: </label>
+                    <textArea class="form-control" id="postContent" name="postContent" placeholder="What's on your mind?" onkeyup="countChar(this)">{{postContent}}</textarea>
+                     <div id="charNum"></div>
+                </div>
+                <div class="form-group">
+                    <label for="displayImage">Select image to post: </label>
+                    <input type="file" name="displayImage" id="displayImage" accept="image/x-png,image/gif,image/jpeg">
+                </div>
 
-        <p>Select (or log in) to accounts:</p>
 
-        <p>
-        {{#if facebookUser}}
-            <label><input type="checkbox" checked id="facebook" name="facebook" value="fb">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25"> as {{facebookUser}}</label>
-        {{else}}
-            <label><img src="/public/img/facebook.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/fb" class="btn btn-default">Log In</button></label>
-        {{/if}}
-        </p>
-
-        <p>
-        {{#if twitterUser}}
-            <label><input type="checkbox" checked id="twitter" name="twitter" value="tw">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25"> as {{twitterUser}}</label>
-        {{else}}
-            <label><img src="/public/img/twitter.png" height="25" width="25">&nbsp;<button type="submit" formaction="/signin/tw" class="btn btn-default">Log In</button></label>
-        {{/if}}
-        </p>
-
-        <p><button type="submit" formaction="/posts" class="btn btn-default">Post</button></p>
-
-    </div>
-    {{#if error}}
-    <div class="form-group">
-        <div class="alert alert-danger">
-            {{ error }}
+                <label class="left-banner">Select (or log in) to accounts:</label>
+                <div class="form-group">
+                    <p>
+                        {{#if facebookUser}}
+                        <input type="checkbox" checked id="facebook" name="facebook" value="fb">
+                        <label for="facebook">&nbsp;<img src ="/public/img/facebook.png" height="25" width="25" alt="fblogo"> as {{facebookUser}}</label>                        {{else}}
+                        <label><img src="/public/img/facebook.png" height="25" width="25" alt="fblogo">&nbsp;<button type="submit" formaction="/signin/fb" class="btn btn-default">Log In</button></label>                        {{/if}}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{#if twitterUser}}
+                        <input type="checkbox" checked id="twitter" name="twitter" value="tw">
+                        <label for="twitter">&nbsp;<img src ="/public/img/twitter.png" height="25" width="25" alt="twitterlogo"> as {{twitterUser}}</label>                        {{else}}
+                        <label><img src="/public/img/twitter.png" height="25" width="25" alt="twitterlogo">&nbsp;<button type="submit" formaction="/signin/tw" class="btn btn-default">Log In</button></label>                        {{/if}}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p><button type="submit" formaction="/posts" class="btn btn-default">Post</button></p>
+                </div>
+                {{#if error}}
+                <div class="form-group">
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                </div>
+                {{/if}} {{#if result }}
+                <div class="form-group">
+                    <div class="alert alert-success">
+                        {{ result }}
+                    </div>
+                </div>
+                {{/if}}
+            </form>
         </div>
     </div>
-    {{/if}}
-    {{#if result }}
-    <div class="form-group">
-        <div class="alert alert-success">
-            {{ result }}
+</div>
+
+<div class="row">
+    <div class="container">
+        <div class="post-div">
+            <div>
+                <h2 class="left-banner-big">Most Recent Posts</h2>
+            </div>
+            {{#if posts}}
+            <ul class="post-list">
+                {{#each posts}}
+                <li class="past-post"> 
+                    <a href="/posts/post/{{_id}}">
+                    {{post}}              
+                    </a>
+                    <p class="text-muted"> Posted on: {{prettyDate createdOn}} </p>
+                </li>
+                {{/each}}
+            </ul>
+            {{else}}
+            <div>
+                <p> No posts yet! </p>
+            </div>
+            {{/if}}
         </div>
     </div>
-    {{/if}}
-</form>
-
-<h2>Most Recent Posts</h2>
-{{#if posts}}
-<ul class="post-list">
-    {{#each posts}}
-        <a href="/posts/post/{{_id}}"><li class="past-post">Posted to: {{#each posts}}{{accountType}} on {{prettyDate sent}}<br/>{{/each}}</li></a>
-    {{/each}}
-</ul>
-{{else}}
-No posts yet!
-{{/if}}
-
-
+</div>
