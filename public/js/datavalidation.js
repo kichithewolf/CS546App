@@ -16,9 +16,7 @@ function validateLogin() {
 
 function validateRegister() {
 	var regex = /\S+@\S+\.\S+/;
-    var patt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-    // this regex is more restrictive than the description (and maybe too much) since it also has a "special char" requirement
-    //var patt = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/;
+    var patt = new RegExp("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/");
     var x = document.forms["registerCollective"]["username"].value;
 	var y = document.forms["registerCollective"]["username2"].value;
     var err = document.getElementById("err");
@@ -55,6 +53,7 @@ function validateRegister() {
 		return false;
 	}
 	var c = document.forms["registerCollective"]["password"].value;
+    console.log(c);
 	var d = document.forms["registerCollective"]["password2"].value;
     if (c == null || c == "") {
         err.innerHTML= "Fill out the password!";
@@ -73,7 +72,7 @@ function validateRegister() {
 	}
     if(!patt.test(c))
     {
-        err.innerHTML= "Password must contain:<br> At least 8 characters <br> At least 1 number <br> At least 1 lowercase character <br> At least 1 uppercase character";
+        err.innerHTML= "Password must contain:<br> At least 8 characters <br> At least 1 number <br> At least 1 lowercase character <br> At least 1 uppercase character <br> Atleast 1 special char ";
         err.classList.remove("hidden");
 		return false;
     }

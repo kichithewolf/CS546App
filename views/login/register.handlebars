@@ -33,13 +33,14 @@
         </form>
 
             {{#if error }}
-            <div class="form-group">
                 <div class="alert alert-danger text-block">
             {{ error }}
                 </div>
-            </div>
             {{/if}}
-            
+
+                <div class="alert alert-danger text-block hidden" id="err" name= "err">
+                </div>
+
         <a class="text-center" href="/login">Already a member?<br>Sign in!</a>
     </div>
 </div>
