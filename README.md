@@ -25,3 +25,10 @@ How to run project:
   5. Start the server using `npm start`
   6. Open a web browser and go to `http://localhost:3000/login`
   7. You should now be running Collective
+
+Facebook account to use:
+  Since Facebook requires app approval before it can be used publicly, we were able to demonstrate the app only on the owner account.
+  Its credentials are:
+
+  Email: *****@gmail.com
+  Password: *********

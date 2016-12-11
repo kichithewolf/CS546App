@@ -47,18 +47,4 @@ router.post("/register", (req, res) => {
     });
 });
 
-// // To check if the users are actually being added, just for debugging phase. To be removed later
-// router.get("/getallusers", (req, res) => {
-//     usersData.getAllUsers().then((usersCollection) => {
-//         res.send(usersCollection);
-//     });
-// });
-
-// // Just for debugging purpose. To be removed later.
-// router.get("/removeallusers", (req, res) => {
-//     usersData.removeAllUsers().then(() => {
-//         res.send("ok");
-//     });
-// });
-
 module.exports = router;
