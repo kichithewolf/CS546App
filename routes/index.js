@@ -9,9 +9,7 @@ const constructorMethod = (app) => {
     app.use("/signin", signIn);         // sign in to facebook/twitter (no views)
 
     app.use("*", (req, res) => {
-        console.error("Request for undefiuned route ", req);
-        res.sendStatus(404);
-        //TODO: send "about Collective" page with link to login and register
+    res.redirect(`/posts`);
     })
 };
 
